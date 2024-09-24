@@ -1,13 +1,15 @@
 package MovieReview.GUI;
 
+import MovieManager.MovieList.*;
 import java.awt.Color;
 import javax.swing.JPanel;
 
 public class MainMenu extends JPanel{
     //CONSTANTS
-    private final java.awt.CardLayout CL;
-    private final JPanel indexCard;
+    private final RegisterMovie RM;
+    private final RegisterUser RU;
     private final String fontName;
+    private final BucketMovies BM;
     private final int fontType;
     //CONSTANTS
     //VARIABLES
@@ -15,12 +17,13 @@ public class MainMenu extends JPanel{
     private int fontSize;
     //VARIABLES
 
-    
-    public MainMenu(JPanel _indexCard, java.awt.CardLayout _CL, java.awt.Dimension Size)
+    public MainMenu(RegisterMovie _RM, RegisterUser _RU, BucketMovies _BM, java.awt.Dimension Size)
     {
         setBackground(Color.DARK_GRAY);
-        indexCard = _indexCard;
-        CL = _CL;
+        BM = _BM;
+        RM = _RM;
+        RU = _RU;
+
         fontType = java.awt.Font.PLAIN;
         fontName = "Droid Sans";
         
@@ -35,13 +38,36 @@ public class MainMenu extends JPanel{
             }
         });
 
-        
         JPanel searchBarPNL = new JPanel();
         searchBarPNL.setLayout(new javax.swing.BoxLayout(searchBarPNL, javax.swing.BoxLayout.X_AXIS));
         searchBarPNL.setOpaque(false);
         MovieNameTXT = new javax.swing.JTextField();
+        MovieNameTXT.addFocusListener(new java.awt.event.FocusListener() {
+
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                if (MovieNameTXT.getText().equals("Titulo de la pelicula") && MovieNameTXT.getForeground() == Color.lightGray)
+                {
+                    MovieNameTXT.setText("");
+                    MovieNameTXT.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (MovieNameTXT.getText().isBlank())
+                {
+                    clearMovieNameTXT();
+                }
+            }
+            
+        });
         
         searchMovieBTN = new javax.swing.JButton();
+        searchMovieBTN.addActionListener((java.awt.event.ActionEvent e) -> {
+            searchMovie(MovieNameTXT.getText());
+        });
+
         searchBarPNL.add(MovieNameTXT);
         searchBarPNL.add(searchMovieBTN);
         
@@ -52,6 +78,7 @@ public class MainMenu extends JPanel{
         JPanel changeMoviesPNL = new JPanel();
         changeMoviesPNL.setOpaque(false);
         
+        clearMovieNameTXT();
         add(searchBarPNL);
         add(movieListPNL);
         add(changeMoviesPNL);
@@ -81,6 +108,27 @@ public class MainMenu extends JPanel{
         
     }
     
+    private void searchMovie(String MovieName)
+    {
+        if (MovieNameTXT.getForeground() == Color.lightGray) 
+        {
+            javax.swing.JOptionPane.showMessageDialog(this, "Por favor ingrese el nombre de una pelicula es el buscador", "Buscar pelicula", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return ;
+        }
+        
+        if (!RM.showPNL(MovieName)) 
+        {
+            javax.swing.JOptionPane.showMessageDialog(this, "No se ha encontrado \'" + MovieName + "\' revise haber escrito bien el titulo", "Buscar pelicula", javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }
+
+    private void clearMovieNameTXT()
+    {
+        MovieNameTXT.setText("Titulo de la pelicula");
+        MovieNameTXT.setForeground(java.awt.Color.lightGray);
+    }
+
     //GUI ELEMENTS
     private final javax.swing.JTextField MovieNameTXT;
     private final javax.swing.JButton searchMovieBTN;

@@ -61,6 +61,10 @@ public class Movies {
         this.Code = Code;
     }
 
-    
+    public void setAditionalData(String Description, int Stars)
+    {
+        this.Stars = Stars;
+        this.Notes = Description;
+    }
     
 }

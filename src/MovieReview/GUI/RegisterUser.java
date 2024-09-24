@@ -101,13 +101,18 @@ public class RegisterUser extends NewDataPanel {
 
     @Override
     public void cancelBTNPressed() {
-        CL.show(indexCard, "Register Movie");
+        CL.show(indexCard, "Main Menu");
         clearFields();
     }
      
     private void clearFields() {
         nameTXT.setText("");
         passTXT.setText("");        
+    }
+
+    public final void showPNL()
+    {
+        CL.show(indexCard, "Register Users");
     }
     
     //GUI ELEMENTS

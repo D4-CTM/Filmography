@@ -65,8 +65,26 @@ public class BucketMovies {
 
     public Movies searchFor(String MovieName)
     {
+        if (MovieName.isBlank()) return null;
+
         int index = hash(MovieName);
-        return Bucket[index].search(generateCode(index, MovieName));
+        try {
+            return Bucket[index].search(generateCode(index, MovieName));
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
+
+    public boolean remove(String MovieName)
+    {
+        if (MovieName.isBlank()) return false;
+
+        int index = hash(MovieName);
+        try {
+            return Bucket[index].remove(generateCode(index, MovieName));
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
     
 }

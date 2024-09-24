@@ -1,17 +1,24 @@
 package MovieReview.GUI;
 
 import MovieManager.MovieList.BucketMovies;
+import MovieManager.MovieList.Movies;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class RegisterMovie extends NewDataPanel{
+    //CONSTANTS
     private final BucketMovies BM;
-    
+    //CONSTANTS
+    //VARIABLES
+    private String initialName;
+    //VARIABLES
+
     public RegisterMovie(javax.swing.JPanel indexCard, java.awt.CardLayout CL,java.awt.Dimension Size, BucketMovies _BM) 
     {
         super(indexCard, CL, Size);
-
+        initialName = "";
+        
         getCentralPanel().setLayout(new java.awt.GridLayout(1, 2));
         BM = _BM;
 
@@ -106,15 +113,49 @@ public class RegisterMovie extends NewDataPanel{
         }
         
         String Description = DescriptionTXT.getText();
+
+        identifyCase(MovieName, Description);
+    }
+
+    private void identifyCase(String MovieName, String Description)
+    {
+        final String intention;
+        final String extra;
+        final String title;
+
+        if (initialName.equals(MovieName))
+        {
+            BM.searchFor(MovieName).setAditionalData(Description, StarsPNL.getStars());
+            javax.swing.JOptionPane.showMessageDialog(this, "Se han modificado los datos de la pelicula exitosamente", "Modificar pelicula", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            initialName = MovieName;
+            return ;
+        }
+
+        if (!initialName.isBlank()) {
+            intention = "modificado " + initialName;
+            title = "Modificar pelicula";
+            extra = "\nDesea seguir modificando los datos?";
+            BM.remove(initialName);
+            initialName = MovieName;
+        } else {
+            intention = "agregado";
+            title = "Agregar pelicula";
+            extra = "\nDesea agregar una pelicula mas?";
+        }
+
         if (BM.add(MovieName, Description, StarsPNL.getStars())) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Se ha agregado exitosamente: " + MovieName + "\nCodigo de pelicula: " + BM.searchFor(MovieName).getCode(), "Agregar pelicula", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        
+            if (javax.swing.JOptionPane.showConfirmDialog(this, "Se ha " + intention + " exitosamente: " + MovieName + "\nCodigo de pelicula: " + BM.searchFor(MovieName).getCode() + extra, title, javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.INFORMATION_MESSAGE) == javax.swing.JOptionPane.NO_OPTION)
+            { CL.show(indexCard, "Main Menu"); }
             clearData();
-        } else javax.swing.JOptionPane.showMessageDialog(this, "No se ha podido agregar \'" + MovieName + "\'.\nIntente ingresando otro nombre", "Agregar pelicula", javax.swing.JOptionPane.WARNING_MESSAGE);
+
+        } else javax.swing.JOptionPane.showMessageDialog(this, "No se ha " + intention + " \'" + MovieName + "\'.\nIntente ingresando otro nombre", title, javax.swing.JOptionPane.WARNING_MESSAGE);
+
     }
 
     @Override
     public void cancelBTNPressed() {
-        CL.show(indexCard, "Register Users");
+        CL.show(indexCard, "Main Menu");
         clearData();
     }
 
@@ -123,7 +164,29 @@ public class RegisterMovie extends NewDataPanel{
         MovieNameTXT.setText("");
         StarsPNL.restartCamps();
     }
+
+    public final void showPNL()
+    {
+        CL.show(indexCard, "Register Movie");
+        initialName = "";
+    }
     
+    public final boolean showPNL(String MovieName)
+    {
+        Movies Movie = BM.searchFor(MovieName);
+        if (Movie != null)
+        {
+            DescriptionTXT.setText(Movie.getNotes());
+            MovieNameTXT.setText(Movie.getName());
+            StarsPNL.setStars(Movie.getStars());
+            initialName = MovieName;
+
+            CL.show(indexCard, "Register Movie");
+            return true;
+        }
+        return false;
+    }
+
     //GUI ELEMENTS
     private final javax.swing.JLabel MoviePoster;
     private final javax.swing.JLabel MovieNameLBL;

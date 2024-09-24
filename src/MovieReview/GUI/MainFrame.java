@@ -14,7 +14,7 @@ public class MainFrame extends javax.swing.JFrame{
         indexCard = new JPanel(CrdLayout);
         RM = new RegisterMovie(indexCard, CrdLayout, MinDimension, BM);
         RU = new RegisterUser(indexCard, CrdLayout, MinDimension);
-        MM = new MainMenu(indexCard, CrdLayout, MinDimension);
+        MM = new MainMenu(RM, RU, BM, MinDimension);
         initComponents();
     }
     
@@ -28,7 +28,7 @@ public class MainFrame extends javax.swing.JFrame{
         indexCard.add(RM, "Register Movie");
         indexCard.add(RU, "Register Users");
         add(indexCard);
-        CrdLayout.show(indexCard, "Main Menu");
+        CrdLayout.show(indexCard, "Register Movie");
         
         pack();
         setMinimumSize(getSize());
