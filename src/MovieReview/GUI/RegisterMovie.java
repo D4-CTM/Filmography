@@ -156,7 +156,6 @@ public class RegisterMovie extends NewDataPanel{
     @Override
     public void cancelBTNPressed() {
         CL.show(indexCard, "Main Menu");
-        clearData();
     }
 
     private void clearData() {
@@ -167,8 +166,9 @@ public class RegisterMovie extends NewDataPanel{
 
     public final void showPNL()
     {
-        CL.show(indexCard, "Register Movie");
+        clearData();
         initialName = "";
+        CL.show(indexCard, "Register Movie");
     }
     
     public final boolean showPNL(String MovieName)

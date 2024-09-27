@@ -28,7 +28,7 @@ public class MainFrame extends javax.swing.JFrame{
         indexCard.add(RM, "Register Movie");
         indexCard.add(RU, "Register Users");
         add(indexCard);
-        CrdLayout.show(indexCard, "Register Movie");
+        CrdLayout.show(indexCard, "Main Menu");
         
         pack();
         setMinimumSize(getSize());
