@@ -4,50 +4,59 @@
  */
 package MovieManager.DataTree;
 
-import MovieManager.MovieList.Movies;
-
 /**
  *
  * @author joshdelcid
  */
-public class Node {
-    private Node Right;
-    private Node Left;
-    private Movies Movie;
+public class Node<T> implements Cloneable{
+    private Node<T> Right;
+    private Node<T> Left;
+    private int Code;
+    private T data;
     
-    public Node(Movies _data)
+    public Node(int _Code, T _data)
     {
-        Movie = _data;
+        data = _data;
+        Code = _Code;
         Right = null;
         Left = null;
     }
 
-    public Node getRight() {
+    public Node<T> getRight() {
         return Right;
     }
 
-    public void setRight(Node Right) {
+    public void setRight(Node<T> Right) {
         this.Right = Right;
     }
 
-    public Node getLeft() {
+    public Node<T> getLeft() {
         return Left;
     }
 
-    public void setLeft(Node Left) {
+    public void setLeft(Node<T> Left) {
         this.Left = Left;
     }
 
-    public Movies getMovie() {
-        return Movie;
+    public T getData() {
+        return data;
     }
 
-    public void setMovie(Movies data) {
-        this.Movie = data;
+    public void setData(T _data) {
+        this.data = _data;
     }
     
+    public void setCode(int _Code) {
+        Code = _Code;
+    }
+
     public int getCode() {
-        return this.Movie.getCode();
+        return Code;
     }
-    
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }    
+
 }

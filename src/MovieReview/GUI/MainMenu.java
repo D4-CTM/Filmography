@@ -3,6 +3,8 @@ package MovieReview.GUI;
 import MovieManager.MovieList.*;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MainMenu extends JPanel{
@@ -11,11 +13,11 @@ public class MainMenu extends JPanel{
     static protected int fontType;
     //DATA USED WITHIN THIS FILE
     //CONSTANTS
-    private final RegisterUser RU;
+//    private final RegisterUser RU;
     private final RegisterMovie RM;
     //CONSTANTS
     //VARIABLES
-    private java.awt.Color PNLBG;
+//    private java.awt.Color PNLBG;
     private int fontSize;
     //VARIABLES
 
@@ -23,7 +25,7 @@ public class MainMenu extends JPanel{
     {
         setBackground(Color.GRAY);
         RM = _RM;
-        RU = _RU;
+//        RU = _RU;
 
         MainMenu.fontType = java.awt.Font.PLAIN;
         MainMenu.fontName = "Droid Sans";
@@ -86,6 +88,8 @@ public class MainMenu extends JPanel{
         JPanel changeMoviesPNL = new JPanel();
         changeMoviesPNL.setOpaque(false);
         
+        MLPNL.showCurrentMovieList();
+
         clearMovieNameTXT();
         add(searchBarPNL);
         add(Scroll);
@@ -122,11 +126,12 @@ public class MainMenu extends JPanel{
     {
         if (MovieNameTXT.getForeground() == Color.lightGray) 
         {
-            javax.swing.JOptionPane.showMessageDialog(this, "Por favor ingrese el nombre de una pelicula es el buscador", "Buscar pelicula", javax.swing.JOptionPane.WARNING_MESSAGE);
+            MLPNL.showCurrentMovieList();
             return ;
         }
 
-        System.out.println("WORK IN PROGRESS");
+        MLPNL.showMovie(MovieName);
+        clearMovieNameTXT();
     }
 
     private void clearMovieNameTXT()
@@ -145,17 +150,101 @@ public class MainMenu extends JPanel{
 }
 class MovieListPNL extends JPanel
 {
+    //CONSTANTS
+    private final BucketMovies BM;
+    //CONSTANTS
 
     public MovieListPNL(Color BG, RegisterMovie _RM, BucketMovies _BM)
     {
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
         setBackground(BG);
+        BM = _BM;
 
         MLC = new MovieListComponenets[10];
         for (int i = 0; i < 10; i++) {
-            MLC[i] = new MovieListComponenets(_RM, _BM);
+            MLC[i] = new MovieListComponenets(_RM, _BM, this);
+            MLC[i].removeBTN.addActionListener((java.awt.event.ActionEvent e) -> {
+                try {
+                    String movieName = ((JButton) e.getSource()).getName();
+                    removeMovie(movieName);
+                } catch (CloneNotSupportedException ex) {}
+            });
             MLC[i].setAlignmentX(JPanel.LEFT_ALIGNMENT);
             add(MLC[i]);
+        }
+
+    }
+
+    public void showCurrentMovieList() {
+        Movies[] Movie = BM.getCurrentMovieList();
+
+        if (Movie == null) { 
+            for (int i = 0; i < 10; i ++) MLC[i].setVisible(false);
+            return ;
+        }
+
+        for (int i = 0; i < 10; i++) {
+            if (Movie[i] != null) {
+                MLC[i].setMovie(Movie[i]);
+                MLC[i].setVisible(true);
+            } else MLC[i].setVisible(false);
+        }
+    }
+
+    public void showNextMovieList() {
+        Movies[] Movie = BM.getNextMovieList();
+
+        if (Movie == null) { 
+            JOptionPane.showMessageDialog(getParent(), "No se han mas ingresado peliculas", "Buscar pelicula", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        for (int i = 0; i < 10; i++) {
+            if (Movie[i] != null) {
+                MLC[i].setMovie(Movie[i]);
+                MLC[i].setVisible(true);
+            } else MLC[i].setVisible(false);
+        }
+    }
+
+    public void showLastMovieList() {
+        Movies[] Movie = BM.getLastMovieList();
+
+        if (Movie == null) { 
+            JOptionPane.showMessageDialog(getParent(), "No se han encontrado mas peliculas", "Buscar pelicula", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        for (int i = 0; i < 10; i++) {
+            if (Movie[i] != null) {
+                MLC[i].setMovie(Movie[i]);
+                MLC[i].setVisible(true);
+            } else MLC[i].setVisible(false);
+        }
+    }
+
+    public void showMovie(String MovieName) {
+        Movies Movie = BM.searchFor(MovieName);
+
+        if (Movie == null) {
+            JOptionPane.showMessageDialog(getParent(), "No se ha encontrado " + MovieName + "\nIntente escribiendo de nuevo el nombre", "Buscar pelicula", JOptionPane.INFORMATION_MESSAGE);
+            return ;
+        }
+
+        MLC[0].setMovie(Movie);
+        MLC[0].setVisible(true);
+        for (int i = 1; i < 10; i++) {
+            MLC[i].setVisible(false);
+        }
+    }
+
+    private void removeMovie(String movieName) throws CloneNotSupportedException
+    {
+        if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(getParent(), "¿Desea eliminar " + movieName + " de la lista de peliculas?\nSi realiza esto no podra recuperar la pelicula", "Eliminar pelicula", JOptionPane.WARNING_MESSAGE )) {
+            String message = BM.remove(movieName) ? "Se la eliminado " + movieName + " correctamente" : "Ha ocurrido un error";
+
+            JOptionPane.showMessageDialog(getParent(), message, "Eliminar pelicula", JOptionPane.INFORMATION_MESSAGE);
+            showCurrentMovieList();
         }
     }
 
@@ -171,25 +260,25 @@ class MovieListPNL extends JPanel
     {
         //CONSTANTS
         private final RegisterMovie RM;
-        private final BucketMovies BM;
+        private final MovieListPNL MLPNL;
         //CONSTANTS
         //VARIABLES
         private int fontSize;
         Movies Movie;
         //VARIABLES
 
-        public MovieListComponenets(RegisterMovie _RM, BucketMovies _BM)
+        public MovieListComponenets(RegisterMovie _RM, BucketMovies _BM, MovieListPNL _MLPNL)
         {
             setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
             setOpaque(false);
+            MLPNL = _MLPNL;
             RM = _RM;
-            BM = _BM;
 
             MoviePoster = new javax.swing.JLabel();
             MoviePoster.setBorder(new javax.swing.border.LineBorder(Color.RED));
             add(MoviePoster);
 
-            codeLBL = new javax.swing.JLabel("Code: 10290");
+            codeLBL = new javax.swing.JLabel("");
             codeLBL.setHorizontalTextPosition(javax.swing.JLabel.LEFT);
 
             starLBL = new javax.swing.JLabel("Estrellas: 5");
@@ -211,7 +300,7 @@ class MovieListPNL extends JPanel
             MovieInfoheader.add(removeBTN);
             MovieInfoPNL.add(MovieInfoheader);
 
-            MovieNameTXT = new javax.swing.JTextArea("The Assassination of Jesse James by the Coward Robert Ford");
+            MovieNameTXT = new javax.swing.JTextArea(" ");
             MovieNameTXT.setWrapStyleWord(true);
             MovieNameTXT.setEditable(false);
             MovieNameTXT.setLineWrap(true);
@@ -232,7 +321,7 @@ class MovieListPNL extends JPanel
 
                 @Override
                 public void mouseReleased(MouseEvent evt) {
-                    if (!RM.showPNL(MovieNameTXT.getText())) System.out.println("No se ha ingresado la peli");
+                    if (RM.showPNL(MovieNameTXT.getText())) MLPNL.showCurrentMovieList();
                 }
                 
             });
@@ -241,6 +330,13 @@ class MovieListPNL extends JPanel
             MovieInfoPNL.add(MovieNameTXT);
 
             add(MovieInfoPNL);
+        }
+
+        public void setMovie(Movies _Movie) {
+            Movie = _Movie;
+            starLBL.setText("Estrellas: " + Movie.getStars());
+            MovieNameTXT.setText(Movie.getName());
+            removeBTN.setName(Movie.getName());
         }
 
         public void scaleComponents(final int Width, final int Height)
@@ -270,7 +366,6 @@ class MovieListPNL extends JPanel
 
             Size = new java.awt.Dimension((int) Width - (Height - Height/3), (Height - Height/3));
             fontSize = (int) (Size.getWidth()/2 + Size.getHeight())/((Size.getWidth()/4 >= 400) ? 18 : 15);
-            System.out.println(Size.getWidth());
             MovieNameTXT.setMinimumSize(Size);
             MovieNameTXT.setMaximumSize(Size);
             MovieNameTXT.setPreferredSize(Size);

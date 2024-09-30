@@ -83,7 +83,9 @@ public abstract class NewDataPanel extends JPanel{
         acceptBTN.setFocusable(false);
         
         acceptBTN.addActionListener((ActionEvent e) -> {
-            acceptBTNPressed();
+            try {
+                acceptBTNPressed();
+            } catch (CloneNotSupportedException e1) {}
         });
         
         acceptContainer.add(acceptBTN, new java.awt.GridBagConstraints());
@@ -144,7 +146,7 @@ public abstract class NewDataPanel extends JPanel{
 
     
     //ABSTACT METHODS
-    public abstract void acceptBTNPressed();
+    public abstract void acceptBTNPressed() throws CloneNotSupportedException;
     public abstract void cancelBTNPressed();
     public abstract void scaleComponents();
     //ABSTRACT METHODS

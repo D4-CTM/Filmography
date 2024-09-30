@@ -114,14 +114,19 @@ public class RegisterMovie extends NewDataPanel{
         
         String Description = DescriptionTXT.getText();
 
-        identifyCase(MovieName, Description);
+        try {
+            identifyCase(MovieName, Description);
+        } catch (CloneNotSupportedException ex) {}
+        
     }
 
-    private void identifyCase(String MovieName, String Description)
+    private void identifyCase(String MovieName, String Description) throws CloneNotSupportedException
     {
         final String intention;
         final String extra;
         final String title;
+
+        System.out.println(StarsPNL.getStars());
 
         if (initialName.equals(MovieName))
         {
@@ -145,7 +150,7 @@ public class RegisterMovie extends NewDataPanel{
 
         if (BM.add(MovieName, Description, StarsPNL.getStars())) {
         
-            if (javax.swing.JOptionPane.showConfirmDialog(this, "Se ha " + intention + " exitosamente: " + MovieName + "\nCodigo de pelicula: " + BM.searchFor(MovieName).getCode() + extra, title, javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.INFORMATION_MESSAGE) == javax.swing.JOptionPane.NO_OPTION)
+            if (javax.swing.JOptionPane.showConfirmDialog(this, "Se ha " + intention + " exitosamente: " + MovieName + extra, title, javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.INFORMATION_MESSAGE) == javax.swing.JOptionPane.NO_OPTION)
             { CL.show(indexCard, "Main Menu"); }
             clearData();
 
@@ -259,7 +264,7 @@ public class RegisterMovie extends NewDataPanel{
         
         protected void setStars(int _Rating)
         {
-            if (_Rating == rating) _Rating -= 1;
+            if (_Rating == rating) _Rating--;
             
             for (int i = 4; i >= 0; i--)
             {
@@ -274,14 +279,14 @@ public class RegisterMovie extends NewDataPanel{
                     Stars[i].setBackground(Free);
                 }
             }
-            rating = _Rating;
+            rating = _Rating + 1;
         }
         
         protected int getStars()
         { return (rating <= 0 ) ? 0 : rating; }
         
         protected void restartCamps()
-        { setStars(-1); }
+        { setStars(-2); }
         
         //GUI ELEMENTS
         private final javax.swing.JButton[] Stars;
