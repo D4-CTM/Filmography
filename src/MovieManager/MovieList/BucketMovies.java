@@ -30,13 +30,13 @@ public class BucketMovies {
         }
     }
     
-    public boolean add(String movieName, String description, int Rating)
+    public boolean add(String movieName, String description, String PosterPath, int Rating)
     {
         int index = hash(movieName);
         int Code = strToInt(movieName.toLowerCase());
-        if (Bucket[index].add(movieName, description, Rating, Code)) {
+        if (Bucket[index].add(movieName, description, PosterPath, Rating, Code)) {
             ML.add(Bucket[index].search(Code), Code);
-            MFS.saveMovie(movieName, description, Rating);
+            MFS.saveMovie(movieName, description, PosterPath, Rating);
             return true;
         }
         return false;
@@ -75,8 +75,9 @@ public class BucketMovies {
         
         int index = hash(movieName);
         int Code = strToInt(movieName.toLowerCase());
+        String MoviePath = searchFor(movieName).getPosterPath();
         if (Bucket[index].remove(Code)) {
-            MFS.remove(movieName);
+            MFS.remove(movieName, MoviePath);
             ML.remove(Code);
             return true;
         }

@@ -17,11 +17,12 @@ public class MovieFileSaver {
         }
     }
 
-    public void saveMovie(String MovieName, String Description, int Rating) {
+    public void saveMovie(String MovieName, String Description, String PosterPath, int Rating) {
         try {
             MovieSaver = new RandomAccessFile(ROOT + "/" + MovieName + ".Film", "rw");
             MovieSaver.writeUTF(MovieName);
             MovieSaver.writeUTF(Description == null ? " " : Description);
+            MovieSaver.writeUTF(PosterPath == null ? " " : PosterPath);            
             MovieSaver.writeInt(Rating);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -61,12 +62,14 @@ public class MovieFileSaver {
         MovieSaver = new RandomAccessFile(path, "r");
         String MovieName = MovieSaver.readUTF();
         String Description = MovieSaver.readUTF();
+        String PosterPath = MovieSaver.readUTF();
         int Stars = MovieSaver.readInt();
-        return new Movies(MovieName, Description, Stars);
+        return new Movies(MovieName, Description, PosterPath, Stars);
     }
     
-    public boolean remove(String MovieName) {
+    public boolean remove(String MovieName, String MoviePath) {
         File FM = new File(ROOT + "/" + MovieName + ".Film");
+        new File(MoviePath).delete();
         return FM.delete();
     }
 

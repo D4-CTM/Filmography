@@ -4,11 +4,15 @@ import MovieManager.MovieList.BucketMovies;
 import MovieManager.MovieList.Movies;
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class RegisterMovie extends NewDataPanel{
     //CONSTANTS
     private final BucketMovies BM;
+    private final JFileChooser fileChooser;
     //CONSTANTS
     //VARIABLES
     private String initialName;
@@ -17,6 +21,10 @@ public class RegisterMovie extends NewDataPanel{
     public RegisterMovie(javax.swing.JPanel indexCard, java.awt.CardLayout CL,java.awt.Dimension Size, BucketMovies _BM) 
     {
         super(indexCard, CL, Size);
+        
+        fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "jpeg", "png"));
+        fileChooser.setDialogTitle("Poster selector");
         initialName = "";
         
         getCentralPanel().setLayout(new java.awt.GridLayout(1, 2));
@@ -24,9 +32,35 @@ public class RegisterMovie extends NewDataPanel{
 
         final JPanel MoviePPNL = new JPanel(new java.awt.GridBagLayout());
         MoviePPNL.setOpaque(false);
-        MoviePoster = new javax.swing.JLabel();
+        MoviePoster = new javax.swing.JLabel("[Inserte poster 2:3]");
         MoviePoster.setBorder(new javax.swing.border.LineBorder(Color.RED));
-        
+        MoviePoster.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        MoviePoster.setVerticalAlignment(javax.swing.JLabel.CENTER);
+        MoviePoster.setForeground(Color.WHITE);
+        MoviePoster.setName(" ");
+
+        MoviePoster.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                if (fileChooser.showOpenDialog(new javax.swing.JFrame()) == JFileChooser.APPROVE_OPTION) {                    
+                    java.io.File PosterFile = fileChooser.getSelectedFile();
+                    String path = "./src/Images/MovieImages/" + PosterFile.getName();
+
+                    if (PosterFile.renameTo(new java.io.File(path))) {
+                        if (!MoviePoster.getName().isBlank() && MoviePoster.getName().equals(fileChooser.getSelectedFile().getName())) {
+                            new java.io.File(MoviePoster.getName()).delete();
+                        }
+
+                        MoviePoster.setText("");
+                        MoviePoster.setName(path);
+                        MoviePoster.setIcon(ImageRenderer.renderImage(path, (int) MoviePoster.getPreferredSize().getWidth(), (int) MoviePoster.getPreferredSize().getHeight()));
+                    } else JOptionPane.showMessageDialog(null, "No se ha podido agregar el poster", "agregar poster", JOptionPane.INFORMATION_MESSAGE);
+
+                }
+
+            }
+        });
+
         MoviePPNL.add(MoviePoster, new java.awt.GridBagConstraints());
         addComponentToCentralPanel(MoviePPNL);
         
@@ -95,7 +129,9 @@ public class RegisterMovie extends NewDataPanel{
         MovieNameTXT.setPreferredSize(new java.awt.Dimension(WCP/2 - WCP/20, (HCP*2)/9));
         DescriptionLBL.setPreferredSize(new java.awt.Dimension(WCP/2 - WCP/20, (HCP*2)/18));
         DescriptionTXT.getParent().setPreferredSize(new java.awt.Dimension(WCP/2 - WCP/20, (HCP*2)/5));
+        MoviePoster.setIcon(ImageRenderer.renderImage(MoviePoster.getName(), HCP/2 + HCP/4, HCP + HCP/2));
         StarsPNL.scaleComponents(WCP, HCP, BTNFont);
+
         
         MovieNameLBL.setFont(BTNFont);
         MovieNameTXT.setFont(BTNFont);
@@ -115,12 +151,12 @@ public class RegisterMovie extends NewDataPanel{
         String Description = DescriptionTXT.getText();
 
         try {
-            identifyCase(MovieName, Description);
+            identifyCase(MovieName, MoviePoster.getName(), Description);
         } catch (CloneNotSupportedException ex) {}
         
     }
 
-    private void identifyCase(String MovieName, String Description) throws CloneNotSupportedException
+    private void identifyCase(String MovieName, String MoviePoster, String Description) throws CloneNotSupportedException
     {
         final String intention;
         final String extra;
@@ -146,7 +182,7 @@ public class RegisterMovie extends NewDataPanel{
             extra = "\nDesea agregar una pelicula mas?";
         }
 
-        if (BM.add(MovieName, Description, StarsPNL.getStars())) {
+        if (BM.add(MovieName, Description, MoviePoster, StarsPNL.getStars())) {
         
             if (javax.swing.JOptionPane.showConfirmDialog(this, "Se ha " + intention  + extra, title, javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.INFORMATION_MESSAGE) == javax.swing.JOptionPane.NO_OPTION) {
                 MainMenu.updateMenu();
@@ -165,6 +201,9 @@ public class RegisterMovie extends NewDataPanel{
     }
 
     private void clearData() {
+        MoviePoster.setText("[Inserte poster 2:3]");
+        MoviePoster.setName(" ");
+        MoviePoster.setIcon(null);
         DescriptionTXT.setText("");
         MovieNameTXT.setText("");
         StarsPNL.restartCamps();
@@ -180,6 +219,9 @@ public class RegisterMovie extends NewDataPanel{
         Movies Movie = BM.searchFor(MovieName);
         if (Movie != null)
         {
+            MoviePoster.setIcon(ImageRenderer.renderImage(Movie.getPosterPath(),(int) MoviePoster.getPreferredSize().getWidth(), (int) MoviePoster.getPreferredSize().getHeight()));
+            MoviePoster.setName(Movie.getPosterPath());
+            MoviePoster.setText("");
             DescriptionTXT.setText(Movie.getNotes());
             MovieNameTXT.setText(Movie.getName());
             StarsPNL.setStars(Movie.getStars());

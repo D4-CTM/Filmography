@@ -20,8 +20,8 @@ public class Tree {
         return (getSize(actPtr.getLeft()) + 1 + getSize(actPtr.getRight()));
     }
 
-    public boolean add(String name, String description, int rating, int code) {
-        Node<Movies> neoNode = new Node<>(code, new Movies(name, description, rating));
+    public boolean add(String name, String description, String PosterPath, int rating, int code) {
+        Node<Movies> neoNode = new Node<>(code, new Movies(name, description, PosterPath, rating));
         if (root == null) {
             root = neoNode;
             return true;

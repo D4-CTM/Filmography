@@ -1,16 +1,24 @@
 package MovieManager.MovieList;
 
 public class Movies {
+    private String MoviePosterPath;
     private String Notes;
     private String Name;
     private int Stars;
     
-    public Movies(String _Name, String _Notes, int _Stars)
+    public Movies(String _Name, String _Notes, String PosterPath, int _Stars)
     {
+        MoviePosterPath = PosterPath;
         Notes = _Notes;
         Stars = _Stars;
         Name = _Name;
     }
+
+    public String getPosterPath()
+    { return MoviePosterPath; }
+
+    public void setPosterPath(String Path) 
+    { MoviePosterPath = Path; }
 
     public String getNotes() {
         return Notes;

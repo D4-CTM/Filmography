@@ -141,8 +141,8 @@ public class MainMenu extends JPanel{
         addMovieBTN.setMaximumSize(new java.awt.Dimension((int) (Width - MovieNameTXT.getMaximumSize().getWidth() + SearchH), SearchH));
         lastBTN.setMaximumSize(searchMovieBTN.getMaximumSize());
         nextBTN.setMaximumSize(searchMovieBTN.getMaximumSize());
-        lastBTN.setIcon(ImageRenderer.renderImage("./src/Images/Left.png", SearchH, SearchH));
-        nextBTN.setIcon(ImageRenderer.renderImage("./src/Images/Right.png", SearchH, SearchH));
+        lastBTN.setIcon(ImageRenderer.renderImage("./src/Images/ProgramImages/Left.png", SearchH, SearchH));
+        nextBTN.setIcon(ImageRenderer.renderImage("./src/Images/ProgramImages/Right.png", SearchH, SearchH));
 
         fontSize = (Width + SearchH)/35;
         MovieNameTXT.setFont(new java.awt.Font(fontName, fontType, fontSize));
@@ -151,7 +151,7 @@ public class MainMenu extends JPanel{
     }
     
     private void showSearchIcon(int Size) {
-        searchMovieBTN.setIcon(ImageRenderer.renderImage(((MovieNameTXT.getForeground() == Color.lightGray) ? "./src/Images/Reload.png" : "./src/Images/Search.png"), Size, Size));;
+        searchMovieBTN.setIcon(ImageRenderer.renderImage(((MovieNameTXT.getForeground() == Color.lightGray) ? "./src/Images/ProgramImages/Reload.png" : "./src/Images/ProgramImages/Search.png"), Size, Size));;
     }
 
     private void scaleInitialPNLS(final int Width, final int Height)
@@ -399,6 +399,7 @@ class MovieListPNL extends JPanel
 
         public void setMovie(Movies _Movie) {
             Movie = _Movie;
+            MoviePoster.setIcon(ImageRenderer.renderImage(_Movie.getPosterPath(), (int) MoviePoster.getPreferredSize().getWidth(), (int) MoviePoster.getPreferredSize().getHeight()));
             starLBL.setText("Estrellas: " + _Movie.getStars());
             MovieNameTXT.setText(_Movie.getName());
             removeBTN.setName(_Movie.getName());
@@ -415,6 +416,7 @@ class MovieListPNL extends JPanel
             MoviePoster.setMinimumSize(Size);
             MoviePoster.setMaximumSize(Size);
             MoviePoster.setPreferredSize(Size);
+            if (Movie != null && !Movie.getPosterPath().isBlank()) MoviePoster.setIcon(ImageRenderer.renderImage(Movie.getPosterPath(), (int) Size.getWidth(), (int) Size.getHeight()));
 
             Size = new java.awt.Dimension((Width - Height)/2, Height);
             fontSize = (int) (Size.getWidth()/2 + Size.getHeight())/20;
