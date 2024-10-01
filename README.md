@@ -1,18 +1,15 @@
-## Getting Started
+## INFORMACION BASICA
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+FILMOGRAPHY 1.0
 
-## Folder Structure
+Este programa funciona de una forma simple, se ingresa una pelicula y esta se agrega a la lista. El panel que se encarga de mostrarlas solo puede desplegar 10 peliculas a la vez, por lo cual si se agrega una y no aparece no se preocupe, simplemente debe darle a los botones laterales para moverse entre paginas.
 
-The workspace contains two folders by default, where:
+## Adiciones a futuro
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- Un combo box para moverse entre paginas mas facilmente.
+- Opciones de customizacion para cambiar los colores de todo.
+- Una opcion para ordenar peliculas en base a un filtro.
+- Una suerte de folder el cual pueda almacenar peliculas especificas.
+- Mejorar la UI.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+--DEVELOPED BY: Joush
