@@ -174,7 +174,7 @@ public class RegisterMovie extends NewDataPanel{
             intention = "modificado " + initialName + ", nuevo nombre: " + MovieName;
             title = "Modificar pelicula";
             extra = "\nDesea seguir modificando los datos?";
-            BM.remove(initialName);
+            BM.update(initialName);
             initialName = MovieName;
         } else {
             intention = "agregado " + MovieName + " exitosamente!";

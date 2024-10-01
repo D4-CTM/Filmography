@@ -66,6 +66,11 @@ public class MovieFileSaver {
         int Stars = MovieSaver.readInt();
         return new Movies(MovieName, Description, PosterPath, Stars);
     }
+
+    public boolean remove(String MovieName) {
+        File FM = new File(ROOT + "/" + MovieName + ".Film");
+        return FM.delete();
+    }
     
     public boolean remove(String MovieName, String MoviePath) {
         File FM = new File(ROOT + "/" + MovieName + ".Film");

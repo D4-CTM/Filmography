@@ -66,8 +66,23 @@ public class BucketMovies {
         int index = hash(movieName);
         int Code = strToInt(movieName.toLowerCase());
         return Bucket[index].search(Code);
-        }
+    }
+     
+    public boolean update(String movieName) throws CloneNotSupportedException
+    {
+        if (movieName == null) return false;
+        if (movieName.isBlank()) return false;
         
+        int index = hash(movieName);
+        int Code = strToInt(movieName.toLowerCase());
+        if (Bucket[index].remove(Code)) {
+            MFS.remove(movieName);
+            ML.remove(Code);
+            return true;
+        }
+        return false;
+    }
+    
     public boolean remove(String movieName) throws CloneNotSupportedException
     {
         if (movieName == null) return false;
