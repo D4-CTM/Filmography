@@ -12,6 +12,7 @@ public class MainMenu extends JPanel{
     static protected String fontName;
     static protected int fontType;
     //DATA USED WITHIN THIS FILE
+    public static MainMenu MENU;
     //CONSTANTS
 //    private final RegisterUser RU;
     private final RegisterMovie RM;
@@ -23,6 +24,8 @@ public class MainMenu extends JPanel{
 
     public MainMenu(RegisterMovie _RM, RegisterUser _RU, BucketMovies _BM, java.awt.Dimension Size)
     {
+        MainMenu.MENU = this;
+
         setBackground(Color.GRAY);
         RM = _RM;
 //        RU = _RU;
@@ -54,6 +57,7 @@ public class MainMenu extends JPanel{
                     MovieNameTXT.setText("");
                     MovieNameTXT.setForeground(Color.BLACK);
                 }
+                showSearchIcon((int) MovieNameTXT.getPreferredSize().getHeight());
             }
 
             @Override
@@ -62,6 +66,7 @@ public class MainMenu extends JPanel{
                 {
                     clearMovieNameTXT();
                 }
+                showSearchIcon((int) MovieNameTXT.getPreferredSize().getHeight());
             }
             
         });
@@ -86,7 +91,34 @@ public class MainMenu extends JPanel{
         Scroll.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         JPanel changeMoviesPNL = new JPanel();
+        changeMoviesPNL.setLayout(new javax.swing.BoxLayout(changeMoviesPNL, javax.swing.BoxLayout.X_AXIS));
         changeMoviesPNL.setOpaque(false);
+        
+        final JPanel lastListPNL = new JPanel();
+        lastListPNL.setLayout(new javax.swing.BoxLayout(lastListPNL, javax.swing.BoxLayout.Y_AXIS));
+        lastListPNL.setOpaque(false);
+
+        lastBTN = new javax.swing.JButton();
+        lastBTN.setAlignmentX(JPanel.LEFT_ALIGNMENT);
+        lastBTN.addActionListener((java.awt.event.ActionEvent e) -> {
+            MLPNL.showLastMovieList();
+        });
+
+
+        lastListPNL.add(lastBTN);
+        changeMoviesPNL.add(lastListPNL);
+        final JPanel nextListPNL = new JPanel();
+        nextListPNL.setLayout(new javax.swing.BoxLayout(nextListPNL, javax.swing.BoxLayout.Y_AXIS));
+        nextListPNL.setOpaque(false);
+
+        nextBTN = new javax.swing.JButton();
+        nextBTN.setAlignmentX(JPanel.RIGHT_ALIGNMENT);
+        nextBTN.addActionListener((java.awt.event.ActionEvent e) -> {
+            MLPNL.showNextMovieList();
+        });
+
+        nextListPNL.add(nextBTN);
+        changeMoviesPNL.add(nextListPNL);
         
         MLPNL.showCurrentMovieList();
 
@@ -107,15 +139,31 @@ public class MainMenu extends JPanel{
         MovieNameTXT.setMaximumSize(new java.awt.Dimension((Width/2) + (Width/6), SearchH));
         searchMovieBTN.setMaximumSize(new java.awt.Dimension(SearchH, SearchH));
         addMovieBTN.setMaximumSize(new java.awt.Dimension((int) (Width - MovieNameTXT.getMaximumSize().getWidth() + SearchH), SearchH));
+        lastBTN.setMaximumSize(searchMovieBTN.getMaximumSize());
+        nextBTN.setMaximumSize(searchMovieBTN.getMaximumSize());
+        lastBTN.setIcon(ImageRenderer.renderImage("./src/Images/Left.png", SearchH, SearchH));
+        nextBTN.setIcon(ImageRenderer.renderImage("./src/Images/Right.png", SearchH, SearchH));
+
         fontSize = (Width + SearchH)/35;
         MovieNameTXT.setFont(new java.awt.Font(fontName, fontType, fontSize));
         addMovieBTN.setFont(new java.awt.Font(fontName, fontType, fontSize - fontSize/10));
+        showSearchIcon(SearchH);
     }
     
+    private void showSearchIcon(int Size) {
+        searchMovieBTN.setIcon(ImageRenderer.renderImage(((MovieNameTXT.getForeground() == Color.lightGray) ? "./src/Images/Reload.png" : "./src/Images/Search.png"), Size, Size));;
+    }
+
     private void scaleInitialPNLS(final int Width, final int Height)
     {
         getComponents()[0].setMaximumSize(new java.awt.Dimension(Width, Height));
         getComponents()[0].setPreferredSize(getComponents()[0].getMaximumSize());
+
+        lastBTN.getParent().setMaximumSize(new java.awt.Dimension(Width/2, Height));
+        lastBTN.getParent().setPreferredSize(lastBTN.getParent().getMaximumSize());
+
+        nextBTN.getParent().setMaximumSize(lastBTN.getParent().getMaximumSize());
+        nextBTN.getParent().setPreferredSize(nextBTN.getParent().getMaximumSize());
         
         getComponents()[2].setMaximumSize(getComponents()[0].getMaximumSize());
         getComponents()[2].setPreferredSize(getComponents()[0].getPreferredSize());
@@ -138,6 +186,11 @@ public class MainMenu extends JPanel{
     {
         MovieNameTXT.setText("Titulo de la pelicula");
         MovieNameTXT.setForeground(java.awt.Color.lightGray);
+        showSearchIcon((int) MovieNameTXT.getPreferredSize().getHeight());
+    }
+
+    public static void updateMenu() {
+        MENU.MLPNL.showCurrentMovieList();
     }
 
     //GUI ELEMENTS
@@ -146,6 +199,8 @@ public class MainMenu extends JPanel{
     private final javax.swing.JButton addMovieBTN;
     private final javax.swing.JScrollPane Scroll;
     private final MovieListPNL MLPNL;
+    private final javax.swing.JButton lastBTN;
+    private final javax.swing.JButton nextBTN;
     //GUI ELEMENTS
 }
 class MovieListPNL extends JPanel
@@ -195,7 +250,7 @@ class MovieListPNL extends JPanel
         Movies[] Movie = BM.getNextMovieList();
 
         if (Movie == null) { 
-            JOptionPane.showMessageDialog(getParent(), "No se han mas ingresado peliculas", "Buscar pelicula", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(getParent(), "No se han encontrado mas peliculas", "Buscar pelicula", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -204,6 +259,11 @@ class MovieListPNL extends JPanel
                 MLC[i].setMovie(Movie[i]);
                 MLC[i].setVisible(true);
             } else MLC[i].setVisible(false);
+        }
+
+        if (!MLC[0].isVisible()) {
+            JOptionPane.showMessageDialog(getParent(), "No hay mas peliculas en la lista", "Siguiente", JOptionPane.WARNING_MESSAGE);
+            showLastMovieList();
         }
     }
 
@@ -220,6 +280,11 @@ class MovieListPNL extends JPanel
                 MLC[i].setMovie(Movie[i]);
                 MLC[i].setVisible(true);
             } else MLC[i].setVisible(false);
+        }
+
+        if (!MLC[0].isVisible()) {
+            JOptionPane.showMessageDialog(getParent(), "No hay mas peliculas en la lista", "Anterior", JOptionPane.WARNING_MESSAGE);
+            showNextMovieList();
         }
     }
 
@@ -334,9 +399,9 @@ class MovieListPNL extends JPanel
 
         public void setMovie(Movies _Movie) {
             Movie = _Movie;
-            starLBL.setText("Estrellas: " + Movie.getStars());
-            MovieNameTXT.setText(Movie.getName());
-            removeBTN.setName(Movie.getName());
+            starLBL.setText("Estrellas: " + _Movie.getStars());
+            MovieNameTXT.setText(_Movie.getName());
+            removeBTN.setName(_Movie.getName());
         }
 
         public void scaleComponents(final int Width, final int Height)

@@ -30,6 +30,16 @@ public class Tree {
         return add(root, neoNode);
     }
 
+    public boolean add(Movies Movie, int code) {
+        Node<Movies> neoNode = new Node<>(code, Movie);
+        if (root == null) {
+            root = neoNode;
+            return true;
+        }
+
+        return add(root, neoNode);
+    }
+
     private boolean add(Node<Movies> actPtr, Node<Movies> neoPtr) {
         if (actPtr == null) return false;
 

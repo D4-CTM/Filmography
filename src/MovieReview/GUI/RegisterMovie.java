@@ -126,8 +126,6 @@ public class RegisterMovie extends NewDataPanel{
         final String extra;
         final String title;
 
-        System.out.println(StarsPNL.getStars());
-
         if (initialName.equals(MovieName))
         {
             BM.searchFor(MovieName).setAditionalData(Description, StarsPNL.getStars());
@@ -137,30 +135,33 @@ public class RegisterMovie extends NewDataPanel{
         }
 
         if (!initialName.isBlank()) {
-            intention = "modificado " + initialName;
+            intention = "modificado " + initialName + ", nuevo nombre: " + MovieName;
             title = "Modificar pelicula";
             extra = "\nDesea seguir modificando los datos?";
             BM.remove(initialName);
             initialName = MovieName;
         } else {
-            intention = "agregado";
+            intention = "agregado " + MovieName + " exitosamente!";
             title = "Agregar pelicula";
             extra = "\nDesea agregar una pelicula mas?";
         }
 
         if (BM.add(MovieName, Description, StarsPNL.getStars())) {
         
-            if (javax.swing.JOptionPane.showConfirmDialog(this, "Se ha " + intention + " exitosamente: " + MovieName + extra, title, javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.INFORMATION_MESSAGE) == javax.swing.JOptionPane.NO_OPTION)
-            { CL.show(indexCard, "Main Menu"); }
+            if (javax.swing.JOptionPane.showConfirmDialog(this, "Se ha " + intention  + extra, title, javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.INFORMATION_MESSAGE) == javax.swing.JOptionPane.NO_OPTION) {
+                MainMenu.updateMenu();
+                CL.show(indexCard, "Main Menu"); 
+            }
             clearData();
 
-        } else javax.swing.JOptionPane.showMessageDialog(this, "No se ha " + intention + " \'" + MovieName + "\'.\nIntente ingresando otro nombre", title, javax.swing.JOptionPane.WARNING_MESSAGE);
+        } else javax.swing.JOptionPane.showMessageDialog(this, "No se ha logrado concretar la operacion.\nIntente ingresando otro nombre", title, javax.swing.JOptionPane.WARNING_MESSAGE);
 
     }
 
     @Override
-    public void cancelBTNPressed() {
-        CL.show(indexCard, "Main Menu");
+    public void cancelBTNPressed() { 
+        MainMenu.updateMenu();
+        CL.show(indexCard, "Main Menu"); 
     }
 
     private void clearData() {
@@ -169,15 +170,13 @@ public class RegisterMovie extends NewDataPanel{
         StarsPNL.restartCamps();
     }
 
-    public final void showPNL()
-    {
+    public final void showPNL() {
         clearData();
         initialName = "";
         CL.show(indexCard, "Register Movie");
     }
     
-    public final boolean showPNL(String MovieName)
-    {
+    public final boolean showPNL(String MovieName) {
         Movies Movie = BM.searchFor(MovieName);
         if (Movie != null)
         {
@@ -239,12 +238,12 @@ public class RegisterMovie extends NewDataPanel{
             {
                 RatingBTN_PNL.add(Stars[i]);
                 Stars[i].setFocusable(false);
-                Stars[i].setName(String.valueOf(i));
+                Stars[i].setName(String.valueOf(i + 1));
                 Stars[i].addActionListener((java.awt.event.ActionEvent e) -> {
                     setStars(Integer.parseInt(((javax.swing.JButton) e.getSource()).getName()));
                 });
             }
-            setStars(-1);
+            setStars(-2);
             
             add(RatingLBL_PNL);
             add(RatingBTN_PNL);
@@ -264,22 +263,28 @@ public class RegisterMovie extends NewDataPanel{
         
         protected void setStars(int _Rating)
         {
-            if (_Rating == rating) _Rating--;
-            
-            for (int i = 4; i >= 0; i--)
-            {
-                if (i <= _Rating)
+            if (_Rating + 1 == rating && _Rating >= 0) {
+                Stars[_Rating].setBorder(new javax.swing.border.LineBorder(BFree, 4));
+                Stars[_Rating].setBackground(Free);
+                
+                rating--;
+            } else {
+                for (int i = 4; i >= 0; i--)
                 {
-                    Stars[i].setBorder(new javax.swing.border.LineBorder(BSelected, 4));
-                    Stars[i].setBackground(Selected);
+                    if (i + 1<= _Rating)
+                    {
+                        Stars[i].setBorder(new javax.swing.border.LineBorder(BSelected, 4));
+                        Stars[i].setBackground(Selected);
+                    }
+                    else
+                    {
+                        Stars[i].setBorder(new javax.swing.border.LineBorder(BFree, 4));
+                        Stars[i].setBackground(Free);
+                    }
                 }
-                else
-                {
-                    Stars[i].setBorder(new javax.swing.border.LineBorder(BFree, 4));
-                    Stars[i].setBackground(Free);
-                }
+    
+                rating = _Rating;
             }
-            rating = _Rating + 1;
         }
         
         protected int getStars()

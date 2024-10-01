@@ -4,11 +4,13 @@ import MovieManager.DataTree.Tree;
 
 public class BucketMovies {
     private final int BUCKET_SIZE = 13;
+    private final MovieFileSaver MFS;
     private final MoviesList ML;
     private final Tree[] Bucket;
 
     public BucketMovies()
     {
+        MFS = new MovieFileSaver("./MovieList");
         ML = new MoviesList();
 
         Bucket = new Tree[BUCKET_SIZE];
@@ -16,6 +18,16 @@ public class BucketMovies {
             Bucket[i] = new Tree();
         }
 
+        Movies[] Movie = MFS.readMovies();
+        if (Movie == null) {
+            return ;
+        }
+        int Code;
+        for (Movies movies : Movie) {
+            Code = strToInt(movies.getName().toLowerCase());
+            Bucket[hash(movies.getName())].add(movies, Code);
+            ML.add(movies, Code);
+        }
     }
     
     public boolean add(String movieName, String description, int Rating)
@@ -24,6 +36,7 @@ public class BucketMovies {
         int Code = strToInt(movieName.toLowerCase());
         if (Bucket[index].add(movieName, description, Rating, Code)) {
             ML.add(Bucket[index].search(Code), Code);
+            MFS.saveMovie(movieName, description, Rating);
             return true;
         }
         return false;
@@ -63,6 +76,7 @@ public class BucketMovies {
         int index = hash(movieName);
         int Code = strToInt(movieName.toLowerCase());
         if (Bucket[index].remove(Code)) {
+            MFS.remove(movieName);
             ML.remove(Code);
             return true;
         }
