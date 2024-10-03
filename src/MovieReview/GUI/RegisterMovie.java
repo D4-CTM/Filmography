@@ -44,7 +44,7 @@ public class RegisterMovie extends NewDataPanel{
             public void mouseReleased(java.awt.event.MouseEvent e) {
                 if (fileChooser.showOpenDialog(new javax.swing.JFrame()) == JFileChooser.APPROVE_OPTION) {                    
                     java.io.File PosterFile = fileChooser.getSelectedFile();
-                    String path = "./src/Images/MovieImages/" + PosterFile.getName();
+                    String path = "./MovieImages/" + PosterFile.getName();
 
                     if (PosterFile.renameTo(new java.io.File(path))) {
                         if (!MoviePoster.getName().isBlank() && MoviePoster.getName().equals(fileChooser.getSelectedFile().getName())) {

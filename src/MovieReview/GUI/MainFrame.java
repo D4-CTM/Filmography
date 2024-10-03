@@ -21,6 +21,7 @@ public class MainFrame extends javax.swing.JFrame{
     private void initComponents()
     {
         setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        setIconImage(new javax.swing.ImageIcon("./src/Images/ProgramImages/Icon.png").getImage());
         setTitle("Filmography");
         
         indexCard.setPreferredSize(MinDimension);
