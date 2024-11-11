@@ -9,9 +9,13 @@ public class MovieFileSaver {
     private final String ROOT;
     private RandomAccessFile MovieSaver;
 
-    public MovieFileSaver(String root) {
+    public MovieFileSaver(String root, String movieImages) {
         ROOT = root;
         File FM = new File(ROOT);
+        if (!FM.exists()) {
+            FM.mkdirs();
+        }
+        FM = new File(movieImages);
         if (!FM.exists()) {
             FM.mkdirs();
         }

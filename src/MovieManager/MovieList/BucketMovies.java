@@ -10,7 +10,7 @@ public class BucketMovies {
 
     public BucketMovies()
     {
-        MFS = new MovieFileSaver("./MovieList");
+        MFS = new MovieFileSaver("./MovieList", "./MovieImages");
         ML = new MoviesList();
 
         Bucket = new Tree[BUCKET_SIZE];
