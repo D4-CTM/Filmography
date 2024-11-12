@@ -52,7 +52,7 @@ public class MainMenu extends JPanel{
 
             @Override
             public void focusGained(java.awt.event.FocusEvent e) {
-                if (MovieNameTXT.getText().equals("Titulo de la pelicula") && MovieNameTXT.getForeground() == Color.lightGray)
+                if (MovieNameTXT.getText().equals("Título de la pelicula") && MovieNameTXT.getForeground() == Color.lightGray)
                 {
                     MovieNameTXT.setText("");
                     MovieNameTXT.setForeground(Color.BLACK);

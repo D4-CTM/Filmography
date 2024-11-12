@@ -32,7 +32,7 @@ public class RegisterMovie extends NewDataPanel{
 
         final JPanel MoviePPNL = new JPanel(new java.awt.GridBagLayout());
         MoviePPNL.setOpaque(false);
-        MoviePoster = new javax.swing.JLabel("[Inserte poster 2:3]");
+        MoviePoster = new javax.swing.JLabel("[Inserte póster 2:3]");
         MoviePoster.setBorder(new javax.swing.border.LineBorder(Color.RED));
         MoviePoster.setHorizontalAlignment(javax.swing.JLabel.CENTER);
         MoviePoster.setVerticalAlignment(javax.swing.JLabel.CENTER);
@@ -69,7 +69,7 @@ public class RegisterMovie extends NewDataPanel{
         
         final JPanel MovieNamePNL = new JPanel(new java.awt.GridLayout(2,1));
         MovieNamePNL.setOpaque(false);
-        MovieNameLBL = new javax.swing.JLabel("Titulo:");
+        MovieNameLBL = new javax.swing.JLabel("Título:");
         MovieNameLBL.setHorizontalTextPosition(javax.swing.JLabel.LEFT);
         MovieNameLBL.setVerticalTextPosition(javax.swing.JLabel.BOTTOM);
         MovieNameLBL.setForeground(Color.WHITE);
@@ -89,7 +89,7 @@ public class RegisterMovie extends NewDataPanel{
         final JPanel DescriptionPNL = new JPanel();
         DescriptionPNL.setLayout(new javax.swing.BoxLayout(DescriptionPNL, javax.swing.BoxLayout.Y_AXIS));
         DescriptionPNL.setOpaque(false);
-        DescriptionLBL = new javax.swing.JLabel("Descripcion:");
+        DescriptionLBL = new javax.swing.JLabel("Descripción:");
         DescriptionLBL.setHorizontalTextPosition(javax.swing.JLabel.LEFT);
         DescriptionLBL.setForeground(Color.WHITE);
         final JPanel DescriptionPNL1 = new JPanel();
@@ -254,7 +254,7 @@ public class RegisterMovie extends NewDataPanel{
         
         public Rating()
         {
-            RatingLBL = new javax.swing.JLabel("Calificacion:");
+            RatingLBL = new javax.swing.JLabel("Calificación:");
             Stars = new javax.swing.JButton[5];
             for (int i = 0; i < 5; i++) { Stars[i] = new javax.swing.JButton(); }
             BSelected = Color.RED;
