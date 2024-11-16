@@ -151,7 +151,7 @@ public class MainMenu extends JPanel{
     }
     
     private void showSearchIcon(int Size) {
-        searchMovieBTN.setIcon(ImageRenderer.renderImage(((MovieNameTXT.getForeground() == Color.lightGray) ? "./src/Images/ProgramImages/Reload.png" : "./src/Images/ProgramImages/Search.png"), Size, Size));;
+        searchMovieBTN.setIcon(ImageRenderer.renderImage(((MovieNameTXT.getForeground() == Color.lightGray) ? "./src/Images/ProgramImages/Reload.png" : "./src/Images/ProgramImages/Search.png"), Size, Size));
     }
 
     private void scaleInitialPNLS(final int Width, final int Height)
@@ -184,7 +184,7 @@ public class MainMenu extends JPanel{
 
     private void clearMovieNameTXT()
     {
-        MovieNameTXT.setText("Titulo de la pelicula");
+        MovieNameTXT.setText("Título de la pelicula");
         MovieNameTXT.setForeground(java.awt.Color.lightGray);
         showSearchIcon((int) MovieNameTXT.getPreferredSize().getHeight());
     }

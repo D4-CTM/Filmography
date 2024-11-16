@@ -23,7 +23,7 @@ public class RegisterMovie extends NewDataPanel{
         super(indexCard, CL, Size);
         
         fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "jpeg", "png"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "jpeg", "png", "webp"));
         fileChooser.setDialogTitle("Poster selector");
         initialName = "";
         
