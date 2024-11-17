@@ -28,6 +28,8 @@ public class MovieFileSaver {
             MovieSaver.writeUTF(Description == null ? " " : Description);
             MovieSaver.writeUTF(PosterPath == null ? " " : PosterPath);            
             MovieSaver.writeInt(Rating);
+            
+            MovieSaver.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -73,7 +75,8 @@ public class MovieFileSaver {
 
     public boolean remove(String MovieName) {
         File FM = new File(ROOT + "/" + MovieName + ".Film");
-        return FM.delete();
+        if (FM.exists()) return FM.delete();
+        return false;
     }
     
     public boolean remove(String MovieName, String MoviePath) {

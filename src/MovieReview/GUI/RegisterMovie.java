@@ -165,12 +165,12 @@ public class RegisterMovie extends NewDataPanel{
         if (initialName.equals(MovieName))
         {
             BM.searchFor(MovieName).setAditionalData(Description, StarsPNL.getStars());
-            javax.swing.JOptionPane.showMessageDialog(this, "Se han modificado los datos de la pelicula exitosamente", "Modificar pelicula", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            initialName = MovieName;
-            return ;
-        }
-
-        if (!initialName.isBlank()) {
+            intention = "modificado los datos de la pelicula exitosamente";
+            extra = "\nDesea seguir modificando los datos?";
+            title = "Modificar pelicula";
+            BM.update(initialName);
+            initialName = MovieName;            
+        } else if (!initialName.isBlank()) {
             intention = "modificado " + initialName + ", nuevo nombre: " + MovieName;
             title = "Modificar pelicula";
             extra = "\nDesea seguir modificando los datos?";
