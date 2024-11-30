@@ -305,15 +305,15 @@ public class RegisterMovie extends NewDataPanel{
         
         protected void setStars(int _Rating)
         {
-            if (_Rating + 1 == rating && _Rating >= 0) {
-                Stars[_Rating].setBorder(new javax.swing.border.LineBorder(BFree, 4));
-                Stars[_Rating].setBackground(Free);
+            if (_Rating == rating) {
+                Stars[_Rating - 1].setBorder(new javax.swing.border.LineBorder(BFree, 4));
+                Stars[_Rating - 1].setBackground(Free);
                 
                 rating--;
             } else {
                 for (int i = 4; i >= 0; i--)
                 {
-                    if (i + 1<= _Rating)
+                    if (i + 1 <= _Rating)
                     {
                         Stars[i].setBorder(new javax.swing.border.LineBorder(BSelected, 4));
                         Stars[i].setBackground(Selected);
