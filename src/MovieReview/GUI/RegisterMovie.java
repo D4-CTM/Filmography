@@ -285,7 +285,7 @@ public class RegisterMovie extends NewDataPanel{
                     setStars(Integer.parseInt(((javax.swing.JButton) e.getSource()).getName()));
                 });
             }
-            setStars(-2);
+            setStars(1);
             
             add(RatingLBL_PNL);
             add(RatingBTN_PNL);
@@ -305,7 +305,7 @@ public class RegisterMovie extends NewDataPanel{
         
         protected void setStars(int _Rating)
         {
-            if (_Rating == rating) {
+            if (_Rating == rating && rating > 0) {
                 Stars[_Rating - 1].setBorder(new javax.swing.border.LineBorder(BFree, 4));
                 Stars[_Rating - 1].setBackground(Free);
                 
@@ -333,7 +333,7 @@ public class RegisterMovie extends NewDataPanel{
         { return (rating <= 0 ) ? 0 : rating; }
         
         protected void restartCamps()
-        { setStars(-2); }
+        { setStars(0); }
         
         //GUI ELEMENTS
         private final javax.swing.JButton[] Stars;
