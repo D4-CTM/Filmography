@@ -28,7 +28,7 @@ public abstract class NewDataPanel extends JPanel{
         innerContainer = new JPanel(new java.awt.BorderLayout());
 
         setLayout(new java.awt.GridBagLayout());
-        setBackground(java.awt.Color.BLACK);
+        setBackground(java.awt.Color.decode("#E7CFBC"));
         setPreferredSize(Size);
         
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -44,7 +44,7 @@ public abstract class NewDataPanel extends JPanel{
         final int width = (int) (Size.getWidth() - Size.getWidth()/4);        
         
         innerContainer.setMinimumSize(new java.awt.Dimension(width, height));
-        innerContainer.setBackground(java.awt.Color.DARK_GRAY);
+        innerContainer.setBackground(java.awt.Color.decode("#FFF4EC"));
         add(innerContainer, new java.awt.GridBagConstraints());
         
         buttonsContainer = new JPanel(new java.awt.GridLayout(0, 3));
@@ -59,8 +59,8 @@ public abstract class NewDataPanel extends JPanel{
         final javax.swing.JButton cancelBTN = new javax.swing.JButton("cancelar");
         cancelBTN.setMinimumSize(new java.awt.Dimension(BC_W, (int) buttonsContainer.getMinimumSize().getHeight()));
         cancelBTN.setBorder(new javax.swing.border.LineBorder(Color.decode("#512828"), 4));
-        cancelBTN.setForeground(Color.decode("#512828"));
-        cancelBTN.setBackground(Color.decode("#b66b49"));
+        cancelBTN.setForeground(Color.WHITE);
+        cancelBTN.setBackground(Color.decode("#EC3832"));
         cancelBTN.setFocusable(false);
         
         cancelBTN.addActionListener((ActionEvent e) -> {
@@ -78,7 +78,7 @@ public abstract class NewDataPanel extends JPanel{
         final javax.swing.JButton acceptBTN = new javax.swing.JButton("aceptar");
         acceptBTN.setMinimumSize(cancelBTN.getMinimumSize());
         acceptBTN.setBorder(new javax.swing.border.LineBorder(Color.decode("#285131"), 4));
-        acceptBTN.setForeground(Color.decode("#285131"));
+        acceptBTN.setForeground(Color.WHITE);
         acceptBTN.setBackground(Color.decode("#49b649"));
         acceptBTN.setFocusable(false);
         

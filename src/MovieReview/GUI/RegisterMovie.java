@@ -34,9 +34,9 @@ public class RegisterMovie extends NewDataPanel{
         MoviePPNL.setOpaque(false);
         MoviePoster = new javax.swing.JLabel("[Inserte póster 2:3]");
         MoviePoster.setBorder(new javax.swing.border.LineBorder(Color.RED));
+        MoviePoster.setForeground(java.awt.Color.BLACK);
         MoviePoster.setHorizontalAlignment(javax.swing.JLabel.CENTER);
         MoviePoster.setVerticalAlignment(javax.swing.JLabel.CENTER);
-        MoviePoster.setForeground(Color.WHITE);
         MoviePoster.setName(" ");
 
         MoviePoster.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -72,7 +72,7 @@ public class RegisterMovie extends NewDataPanel{
         MovieNameLBL = new javax.swing.JLabel("Título:");
         MovieNameLBL.setHorizontalTextPosition(javax.swing.JLabel.LEFT);
         MovieNameLBL.setVerticalTextPosition(javax.swing.JLabel.BOTTOM);
-        MovieNameLBL.setForeground(Color.WHITE);
+        MovieNameLBL.setForeground(java.awt.Color.BLACK);
         MovieNameTXT = new javax.swing.JTextField();
 
         final JPanel MovieNamePNL1 = new JPanel();
@@ -91,7 +91,7 @@ public class RegisterMovie extends NewDataPanel{
         DescriptionPNL.setOpaque(false);
         DescriptionLBL = new javax.swing.JLabel("Descripción:");
         DescriptionLBL.setHorizontalTextPosition(javax.swing.JLabel.LEFT);
-        DescriptionLBL.setForeground(Color.WHITE);
+        DescriptionLBL.setForeground(java.awt.Color.BLACK);
         final JPanel DescriptionPNL1 = new JPanel();
         DescriptionPNL1.setOpaque(false);
         DescriptionPNL1.add(DescriptionLBL);
@@ -258,9 +258,9 @@ public class RegisterMovie extends NewDataPanel{
             Stars = new javax.swing.JButton[5];
             for (int i = 0; i < 5; i++) { Stars[i] = new javax.swing.JButton(); }
             BSelected = Color.RED;
-            Selected = Color.YELLOW;
-            BFree = Color.BLACK;
-            Free = Color.LIGHT_GRAY;
+            Selected = Color.decode("#FFEE70");
+            BFree = Color.decode("#999999");
+            Free = Color.decode("#EBEBEB");
             initComponents();
         }
         
@@ -269,7 +269,7 @@ public class RegisterMovie extends NewDataPanel{
             setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
             setOpaque(false);
             RatingLBL.setHorizontalTextPosition(javax.swing.JLabel.LEFT);
-            RatingLBL.setForeground(Color.WHITE);
+            RatingLBL.setForeground(Color.black);
             
             final JPanel RatingLBL_PNL = new JPanel();
             RatingLBL_PNL.setOpaque(false);

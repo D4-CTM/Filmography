@@ -14,11 +14,8 @@ public class MainMenu extends JPanel{
     //DATA USED WITHIN THIS FILE
     public static MainMenu MENU;
     //CONSTANTS
-//    private final RegisterUser RU;
     private final RegisterMovie RM;
     //CONSTANTS
-    //VARIABLES
-//    private java.awt.Color PNLBG;
     private int fontSize;
     //VARIABLES
 
@@ -26,9 +23,8 @@ public class MainMenu extends JPanel{
     {
         MainMenu.MENU = this;
 
-        setBackground(Color.GRAY);
+        setBackground(Color.decode("#FFF4EC"));
         RM = _RM;
-//        RU = _RU;
 
         MainMenu.fontType = java.awt.Font.PLAIN;
         MainMenu.fontName = "Droid Sans";
@@ -72,11 +68,13 @@ public class MainMenu extends JPanel{
         });
         
         searchMovieBTN = new javax.swing.JButton();
+        searchMovieBTN.setBackground(Color.decode("#E7CFBC"));
         searchMovieBTN.addActionListener((java.awt.event.ActionEvent e) -> {
             searchMovie(MovieNameTXT.getText());
         });
 
         addMovieBTN = new javax.swing.JButton("Agregar pelicula");
+        addMovieBTN.setBackground(Color.decode("#E7CFBC"));
         addMovieBTN.addActionListener((java.awt.event.ActionEvent e) -> {
             RM.showPNL();
         });
@@ -92,7 +90,7 @@ public class MainMenu extends JPanel{
 
         JPanel changeMoviesPNL = new JPanel();
         changeMoviesPNL.setLayout(new javax.swing.BoxLayout(changeMoviesPNL, javax.swing.BoxLayout.X_AXIS));
-        changeMoviesPNL.setOpaque(false);
+        changeMoviesPNL.setBackground(Color.decode("#E7CFBC"));
         
         final JPanel lastListPNL = new JPanel();
         lastListPNL.setLayout(new javax.swing.BoxLayout(lastListPNL, javax.swing.BoxLayout.Y_AXIS));
@@ -100,6 +98,7 @@ public class MainMenu extends JPanel{
 
         lastBTN = new javax.swing.JButton();
         lastBTN.setAlignmentX(JPanel.LEFT_ALIGNMENT);
+        lastBTN.setBackground(Color.decode("#E7CFBC"));
         lastBTN.addActionListener((java.awt.event.ActionEvent e) -> {
             MLPNL.showLastMovieList();
         });
@@ -113,6 +112,7 @@ public class MainMenu extends JPanel{
 
         nextBTN = new javax.swing.JButton();
         nextBTN.setAlignmentX(JPanel.RIGHT_ALIGNMENT);
+        nextBTN.setBackground(Color.decode("#E7CFBC"));
         nextBTN.addActionListener((java.awt.event.ActionEvent e) -> {
             MLPNL.showNextMovieList();
         });
@@ -376,7 +376,7 @@ class MovieListPNL extends JPanel
 
                 @Override
                 public void mouseEntered(MouseEvent evt) {
-                    MovieNameTXT.setForeground(Color.WHITE);
+                    MovieNameTXT.setForeground(Color.gray);
                 }
 
                 @Override
